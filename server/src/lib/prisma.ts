@@ -15,7 +15,7 @@ let loadError: Error | null = null;
 try {
   if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { PrismaClient } = require(path.join(__dirname, "../../generated/prisma/client"));
+  const { PrismaClient } = require("../../generated/prisma/client"); // static path so Vercel bundles the generated client
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { PrismaPg } = require("@prisma/adapter-pg");
   client = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }) });

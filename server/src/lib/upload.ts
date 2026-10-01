@@ -11,7 +11,7 @@ export const upload = multer({
 });
 
 /** Where local uploads live (server/uploads, served at /uploads) and the public URL they get. */
-export const UPLOAD_DIR = path.resolve(__dirname, "../../uploads");
+export const UPLOAD_DIR = process.env.VERCEL ? "/tmp/maarga/uploads" : path.resolve(__dirname, "../../uploads");
 export const PUBLIC_URL = (process.env.PUBLIC_URL || `http://localhost:${process.env.PORT || 5000}`).replace(/\/$/, "");
 
 export const storageMode = cloudinaryConfigured ? "cloudinary" : "local";

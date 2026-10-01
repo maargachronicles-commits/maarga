@@ -23,7 +23,11 @@ export type Db = Record<ModelName, Delegate> & { mode: "postgres" | "file"; deta
 
 let backendPromise: Promise<Db> | null = null;
 
-export const DATA_FILE = path.resolve(__dirname, "../../data/homepage-cms.json");
+/* Vercel's file system is read-only except /tmp (and /tmp is wiped often), so the
+   file store there is only a fallback. Set DATABASE_URL on Vercel to keep data. */
+export const DATA_FILE = process.env.VERCEL
+  ? "/tmp/maarga/homepage-cms.json"
+  : path.resolve(__dirname, "../../data/homepage-cms.json");
 
 async function connectPrisma(): Promise<Db> {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
