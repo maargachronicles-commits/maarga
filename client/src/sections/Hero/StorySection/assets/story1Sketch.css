@@ -1,0 +1,16 @@
+.story1-sketch path {
+  fill: none !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Temple */
+.story1-sketch path[fill="#272727"] {
+  stroke: #272727;
+  stroke-width: 0.5;
+}
+/* Darker rendering for the homepage stack: the Figma group sits at 20% opacity
+   which reads too faint on screen; lift it and thicken the pen slightly. */
+.story1-sketch g[opacity] { opacity: 0.55 !important; }
+.story1-sketch path[fill="#272727"] { stroke-width: 0.9; }
+.story1-sketch path[fill="#A62F20"] { stroke-width: 1.1; }

@@ -1,0 +1,261 @@
+/* ------------------------------------------------------------------
+   Homepage editor — the exact Maarga tokens used by client/globals.css so
+   the CMS preview is the same design the visitor sees. Everything is
+   prefixed `mg-` so it never collides with the admin's own styles.
+------------------------------------------------------------------ */
+@import url("https://api.fontshare.com/v2/css?f[]=clash-grotesk@300,400,500&f[]=erode@400,401,600&display=swap");
+
+.mg {
+  --mg-red: #a62f20;
+  --mg-ink: #272727;
+  --mg-cream: #fffdfa;
+  --mg-clash: "Clash Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mg-erode: "Erode", Georgia, "Times New Roman", serif;
+  color: var(--mg-ink);
+  font-family: var(--mg-erode);
+  font-size: 16px;
+  line-height: 19.8px;
+}
+.mg *,
+.mg *::before,
+.mg *::after { box-sizing: border-box; }
+.mg h1, .mg h2, .mg h3, .mg h4, .mg p { margin: 0; }
+.mg img { display: block; max-width: 100%; }
+
+/* type scale (exact Figma values) */
+.mg .t-h1   { font-family: var(--mg-clash); font-weight: 400; font-size: 40px; line-height: 49.2px; }
+.mg .t-h2   { font-family: var(--mg-clash); font-weight: 400; font-size: 28px; line-height: 34.4px; }
+.mg .t-h3   { font-family: var(--mg-clash); font-weight: 400; font-size: 24px; line-height: 31.2px; }
+.mg .t-h4   { font-family: var(--mg-clash); font-weight: 400; font-size: 22px; line-height: 27.1px; }
+.mg .t-btn  { font-family: var(--mg-clash); font-weight: 400; font-size: 16px; line-height: 19.7px; }
+.mg .t-body { font-family: var(--mg-erode); font-weight: 400; font-size: 16px; line-height: 19.8px; }
+.mg .t-body-lg { font-family: var(--mg-erode); font-weight: 400; font-size: 16px; line-height: 25.6px; }
+.mg .t-small{ font-family: var(--mg-erode); font-weight: 400; font-size: 14px; line-height: 17.4px; }
+
+.mg .c-red   { color: var(--mg-red); }
+.mg .c-ink   { color: var(--mg-ink); }
+.mg .c-cream { color: var(--mg-cream); }
+.mg .bg-red   { background: var(--mg-red); }
+.mg .bg-cream { background: var(--mg-cream); }
+.mg .bg-white { background: #fff; }
+
+/* buttons */
+.mg .btn-red, .mg .btn-cream {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 44px; padding: 12px 24px; width: 100%;
+  font-family: var(--mg-clash); font-size: 16px; line-height: 19.7px;
+  border: 0; text-decoration: none;
+}
+.mg .btn-red   { background: var(--mg-red); color: var(--mg-cream); }
+.mg .btn-cream { background: var(--mg-cream); color: var(--mg-red); }
+.mg .arrow-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--mg-clash); font-size: 16px; line-height: 19.7px;
+  border-bottom: 1px solid currentColor;
+}
+.mg .arrow-link svg { width: 14px; height: 14px; }
+
+/* ---------- editable fields ---------- */
+.mg .mg-edit {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0 2px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  resize: none;
+  overflow: hidden;
+  outline: 1px dashed transparent;
+  outline-offset: 2px;
+  transition: outline-color 0.15s ease, background-color 0.15s ease;
+}
+.mg .mg-edit:hover { outline-color: rgba(166, 47, 32, 0.45); }
+.mg .mg-edit:focus { outline: 1px solid var(--mg-red); background: rgba(255, 255, 255, 0.06); }
+.mg .mg-edit::placeholder { color: currentColor; opacity: 0.4; font-style: italic; }
+.mg .mg-edit.mg-invalid { outline-color: #d33; outline-style: solid; }
+.mg .mg-edit.mg-inline { display: inline-block; width: auto; min-width: 6ch; }
+
+/* image drop zone */
+.mg .mg-img { position: relative; overflow: hidden; }
+.mg .mg-img > img { width: 100%; height: 100%; object-fit: cover; }
+.mg .mg-img-empty {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background:
+    repeating-linear-gradient(45deg, rgba(39,39,39,.06) 0 10px, transparent 10px 20px),
+    #f3f1ed;
+  color: rgba(39,39,39,.6);
+  font-family: var(--mg-erode); font-style: italic; font-size: 14px;
+}
+.mg .mg-img-btn {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.7);
+  background: rgba(39,39,39,.72); color: #fff; font: 500 12px/1 var(--font-inter), system-ui, sans-serif;
+  cursor: pointer; opacity: 0; transition: opacity .15s;
+}
+.mg .mg-img:hover .mg-img-btn, .mg .mg-img.mg-img-none .mg-img-btn { opacity: 1; }
+.mg .mg-img.mg-invalid { box-shadow: inset 0 0 0 2px #d33; }
+
+/* ---------- item chrome (admin controls around each preview) ---------- */
+.mg-item { border: 1px solid #e3ddd4; border-radius: 10px; background: #fff; overflow: hidden; }
+.mg-item-bar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px 14px; border-bottom: 1px solid #ede8e1; background: #faf8f5;
+  font: 500 12px/1.2 var(--font-inter), system-ui, sans-serif; color: #444;
+}
+.mg-item-bar .grow { flex: 1; }
+.mg-badge { padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: .02em; }
+.mg-badge.draft { background: #fff2cc; color: #8a6d00; }
+.mg-badge.published { background: #e3f4e6; color: #1d6b32; }
+.mg-badge.hidden { background: #eee; color: #666; }
+.mg-badge.dirty { background: #fde8e5; color: #a62f20; }
+.mg-btn {
+  height: 32px; padding: 0 12px; border-radius: 6px; border: 1px solid #d8d2c8; background: #fff;
+  font: 500 12px/1 var(--font-inter), system-ui, sans-serif; color: #333; cursor: pointer;
+}
+.mg-btn:hover { background: #f3f0eb; }
+.mg-btn:disabled { opacity: .45; cursor: default; }
+.mg-btn.primary { background: #a62f20; border-color: #a62f20; color: #fff; }
+.mg-btn.primary:hover { background: #8f2719; }
+.mg-btn.danger { color: #a62f20; }
+.mg-btn.icon { width: 32px; padding: 0; }
+.mg-toggle { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+.mg-toggle .track { width: 36px; height: 20px; border-radius: 999px; background: #cfc9bf; position: relative; transition: background .15s; }
+.mg-toggle .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left .15s; }
+.mg-toggle.on .track { background: #1d6b32; }
+.mg-toggle.on .track::after { left: 18px; }
+.mg-errors { padding: 10px 14px; background: #fff4f2; color: #a62f20; font: 12px/1.5 var(--font-inter), system-ui, sans-serif; border-bottom: 1px solid #f3d9d4; }
+.mg-preview { padding: 18px; overflow-x: auto; }
+.mg-hint { font: 12px/1.5 var(--font-inter), system-ui, sans-serif; color: #777; }
+
+/* scaled frame so 1512px-wide designs fit the admin column */
+.mg-scale-outer { width: 100%; }
+.mg-scale-inner { transform-origin: top left; }
+
+/* ---------- position control ---------- */
+.mg-pos { display: inline-flex; align-items: center; gap: 6px; color: #444; }
+.mg-pos select {
+  height: 30px; padding: 0 8px; border-radius: 6px; border: 1px solid #d8d2c8; background: #fff;
+  font: 600 12px/1 var(--font-inter), system-ui, sans-serif; color: #222; cursor: pointer;
+}
+.mg-move { display: inline-flex; gap: 4px; }
+
+/* ---------- button + link editor ---------- */
+.mg-button-field { display: flex; flex-direction: column; gap: 6px; }
+.mg-button-field.is-empty .btn-cream,
+.mg-button-field.is-empty .btn-red,
+.mg-button-field.is-empty .arrow-link { outline: 1px dashed rgba(166,47,32,.5); outline-offset: 2px; opacity: .85; }
+.mg-button-field .arrow-link .mg-edit { min-width: 8ch; }
+.mg-link {
+  display: flex; align-items: center; gap: 6px;
+  font: 500 11px/1 var(--font-inter), system-ui, sans-serif; color: #555;
+}
+.mg-link > span { white-space: nowrap; opacity: .8; }
+.mg-link input {
+  flex: 1; min-width: 0; height: 24px; padding: 0 8px; border-radius: 4px;
+  border: 1px dashed #cfc9bf; background: #fff; color: #222; font: 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.mg-link input.mg-invalid { border: 1px solid #d33; }
+.mg-link.on-red { color: rgba(255,255,255,.85); }
+.mg-link.on-red input { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.45); color: #fff; }
+.mg-link input::placeholder { opacity: .5; }
+.mg-link-hint { margin: 0; font: 11px/1.4 var(--font-inter), system-ui, sans-serif; color: #888; }
+
+/* ---------- API status / connection help ---------- */
+.mg-conn { border: 1px solid #f3d9d4; background: #fff6f4; border-radius: 10px; padding: 14px 16px; font: 13px/1.55 var(--font-inter), system-ui, sans-serif; color: #5a2a24; }
+.mg-conn code { background: #fff; border: 1px solid #f0dcd8; border-radius: 4px; padding: 1px 6px; font-size: 12px; }
+.mg-conn pre { margin: 8px 0 0; padding: 10px 12px; background: #2a2523; color: #f6efe9; border-radius: 8px; font-size: 12px; overflow-x: auto; }
+
+/* ---------- responsive editor ---------- */
+@media (max-width: 720px) {
+  .mg-item-bar { padding: 10px; gap: 8px; }
+  .mg-item-bar .grow { flex-basis: 100%; height: 0; }
+  .mg-preview { padding: 12px; }
+  .mg-pos span { display: none; }
+}
+
+/* ---------- page chrome ---------- */
+.mg-page { padding: 32px 36px 80px; max-width: 1400px; }
+.mg-page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.mg-page-status { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #666; flex-wrap: wrap; }
+.mg-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 28px; border-bottom: 1px solid #e3ddd4; padding-bottom: 12px; }
+.mg-tab {
+  height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #d8d2c8; background: #fff; color: #333;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+}
+.mg-tab.active { border-color: #a62f20; background: #a62f20; color: #fff; }
+@media (max-width: 720px) {
+  .mg-page { padding: 20px 14px 60px; }
+  .mg-tabs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+  .mg-tabs::-webkit-scrollbar { display: none; }
+  .mg-tab { flex: none; }
+}
+
+/* Editable fields must keep the design's type size: `.mg .mg-edit { font: inherit }`
+   has the same specificity as the type classes and came later, so headings
+   collapsed to body size. Re-assert the scale for editable elements. */
+.mg .mg-edit.t-h1   { font-family: var(--mg-clash); font-weight: 400; font-size: 40px; line-height: 49.2px; }
+.mg .mg-edit.t-h2   { font-family: var(--mg-clash); font-weight: 400; font-size: 28px; line-height: 34.4px; }
+.mg .mg-edit.t-h3   { font-family: var(--mg-clash); font-weight: 400; font-size: 24px; line-height: 31.2px; }
+.mg .mg-edit.t-h4   { font-family: var(--mg-clash); font-weight: 400; font-size: 22px; line-height: 27.1px; }
+.mg .mg-edit.t-btn  { font-family: var(--mg-clash); font-weight: 400; font-size: 16px; line-height: 19.7px; }
+.mg .mg-edit.t-body { font-family: var(--mg-erode); font-weight: 400; font-size: 16px; line-height: 19.8px; }
+.mg .mg-edit.t-body-lg { font-family: var(--mg-erode); font-weight: 400; font-size: 16px; line-height: 25.6px; }
+.mg .mg-edit.t-small{ font-family: var(--mg-erode); font-weight: 400; font-size: 14px; line-height: 17.4px; }
+
+/* ---- per-page scholar overrides ---- */
+.mg-override { outline: 1px solid rgba(166,47,32,.6) !important; outline-offset: 2px; }
+.mg-override-reset {
+  position: absolute; right: 0; top: -22px; height: 20px; padding: 0 8px; border-radius: 999px;
+  border: 1px solid #a62f20; background: #fff; color: #a62f20; font: 11px/18px var(--font-inter), system-ui, sans-serif; cursor: pointer; z-index: 3;
+}
+.mg-override-reset:hover { background: #a62f20; color: #fff; }
+.mg-copy-actions { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
+
+/* Experience page type in previews */
+.mg .place-title { font-family: var(--mg-erode); font-weight: 400; font-size: 74.6px; line-height: 92.5px; }
+.mg .t-site { font-family: var(--mg-clash); font-weight: 400; font-size: 48px; line-height: 59px; }
+
+/* ---------- Round 8: image field "from PC / from Gallery" + library picker ---------- */
+.mg .mg-img-actions { position: absolute; inset: auto 0 10px 0; display: flex; justify-content: center; gap: 6px; opacity: 0; transition: opacity .15s; z-index: 3; }
+.mg .mg-img:hover .mg-img-actions, .mg .mg-img.mg-img-none .mg-img-actions, .mg .mg-img-actions:focus-within { opacity: 1; }
+.mg .mg-img-actions .mg-img-btn { position: static; opacity: 1; transform: none; }
+.mg .mg-img-actions .mg-img-btn.alt { background: #fff; color: #a62f20; }
+.mg-picker-backdrop { position: fixed; inset: 0; z-index: 1000; background: rgba(39,39,39,.55); display: flex; align-items: center; justify-content: center; padding: 24px; }
+.mg-picker { width: min(1100px, 100%); max-height: 90vh; background: #fff; border-radius: 12px; display: grid; grid-template-columns: 240px 1fr; overflow: hidden; font: 13px/1.5 var(--font-inter), system-ui, sans-serif; color: #222; }
+@media (max-width: 720px) { .mg-picker { grid-template-columns: 1fr; max-height: 95vh; } .mg-picker-folders { max-height: 140px; } }
+.mg-picker-folders { border-right: 1px solid #eee; overflow: auto; padding: 12px; }
+.mg-picker-folders button { display: flex; width: 100%; justify-content: space-between; gap: 8px; text-align: left; padding: 8px 10px; border: 0; border-radius: 8px; background: transparent; cursor: pointer; font: inherit; color: #333; }
+.mg-picker-folders button.active, .mg-picker-folders button:hover { background: #f5f1ea; }
+.mg-picker-folders small { color: #888; }
+.mg-picker-main { display: flex; flex-direction: column; min-height: 0; }
+.mg-picker-head { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+.mg-picker-head input[type=search] { flex: 1; min-width: 160px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; font: inherit; }
+.mg-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; padding: 16px; overflow: auto; }
+.mg-picker-grid button { border: 2px solid transparent; border-radius: 8px; padding: 0; background: #f7f5f1; cursor: pointer; overflow: hidden; aspect-ratio: 1; position: relative; }
+.mg-picker-grid button:hover, .mg-picker-grid button:focus-visible { border-color: #a62f20; }
+.mg-picker-grid button img, .mg-picker-grid button video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mg-picker-grid button span { position: absolute; left: 0; right: 0; bottom: 0; padding: 4px 6px; background: rgba(255,255,255,.85); font-size: 11px; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+.mg-check { display: inline-flex; align-items: center; gap: 6px; font: 12px/1.4 var(--font-inter), system-ui, sans-serif; color: #444; cursor: pointer; }
+.mg-tabs-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.mg-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.mg-card { border: 1px solid #e3ddd4; border-radius: 10px; background: #fff; overflow: hidden; display: flex; flex-direction: column; }
+.mg-card .thumb { aspect-ratio: 16 / 10; background: #f0ece5; position: relative; }
+.mg-card .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mg-card .body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px; font: 13px/1.5 var(--font-inter), system-ui, sans-serif; color: #333; }
+.mg-card .body h3 { margin: 0; font-size: 16px; font-weight: 600; color: #222; }
+.mg-card .meta { color: #777; font-size: 12px; }
+.mg-card .actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.mg-code { font: 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace; background: #f3f0eb; padding: 3px 6px; border-radius: 5px; color: #555; }
+.mg-field { display: flex; flex-direction: column; gap: 4px; font: 12px/1.4 var(--font-inter), system-ui, sans-serif; color: #555; }
+.mg-field input, .mg-field select, .mg-field textarea { font: 13px/1.4 var(--font-inter), system-ui, sans-serif; padding: 7px 9px; border: 1px solid #ccc; border-radius: 6px; background: #fff; color: #222; }
+.mg-field textarea { min-height: 70px; resize: vertical; }
+.mg-icon-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px 3px 3px; border: 1px solid #ddd; border-radius: 999px; background: #fff; font: 12px/1.2 var(--font-inter), system-ui, sans-serif; color: #333; }
+.mg-icon-chip .sq { width: 24px; height: 24px; background: #a62f20; display: grid; place-items: center; border-radius: 4px; }
+.mg-icon-chip .sq img { width: 16px; height: 16px; object-fit: contain; filter: brightness(0) invert(1); }
+.mg-icon-chip button { border: 0; background: transparent; color: #a62f20; cursor: pointer; font-size: 14px; line-height: 1; padding: 0 2px; }
+.mg-sticky-bar { position: sticky; top: 0; z-index: 20; background: #faf8f4; border-bottom: 1px solid #e3ddd4; padding: 10px 0; margin-bottom: 18px; }

@@ -1,0 +1,13 @@
+.templeSection {
+  height: 200vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.templeSVG {
+  width: 90vw;
+  max-width: 1200px;
+  position: sticky;
+  top: 15vh;
+}

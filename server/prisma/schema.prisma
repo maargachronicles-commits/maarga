@@ -1,0 +1,351 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Homepage "What Trips Are We Organising Now" card.
+/// `status` DRAFT = can be incomplete; PUBLISHED = every required field present.
+/// `published` = "Show on homepage" toggle (only PUBLISHED + published items render).
+model Trip {
+  id               String   @id @default(cuid())
+  image            String?
+  category         String?
+  heading          String?
+  subtitle         String?
+  dates            String?
+  duration         String?
+  body             String?
+  bookNowUrl       String?
+  primaryCtaText   String?  @default("Experience with us")
+  secondaryCtaText String?  @default("View Itinerary")
+  secondaryCtaUrl  String?
+  status           String   @default("PUBLISHED")
+  order            Int      @default(0)
+  published        Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Event {
+  id                        String    @id @default(cuid())
+  title                     String
+  description               String?
+  category                  String?   @default("Knowledge Session")
+  eventDate                 DateTime?
+  startTime                 String?
+  endTime                   String?
+  ctaText                   String?   @default("Know more")
+  ctaUrl                    String?
+  duration                  String?
+  format                    String    @default("ONLINE")
+  meetingPlatform           String?
+  meetingLink               String?
+  location                  String?
+  capacity                  Int?
+  scholar                   String?
+  scholarBio                String?
+  sessionOutline            String?
+  preReadingMaterials       String?
+  image                     String?
+  imageAltText              String?
+  openRegistration          Boolean   @default(true)
+  standardTicketPrice       Int?
+  earlyBirdEnabled          Boolean   @default(false)
+  earlyBirdPrice            Int?
+  earlyBirdDeadline         DateTime?
+  confirmationEmailTemplate String?
+  reminderOneWeek           Boolean   @default(true)
+  reminderOneDay            Boolean   @default(true)
+  reminderOneHour           Boolean   @default(false)
+  status                    String    @default("DRAFT")
+  visibility                String    @default("PUBLIC")
+  published                 Boolean   @default(false)
+  registrations             Int       @default(0)
+  order                     Int       @default(0)
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+  /// Events page (round 8): "Led by …" line, detail-page paragraphs, who it is for,
+  /// after-the-event text + attendee feedback [{quote,name,role}], booking link, early-bird note.
+  subtitle                  String?
+  body                      String?
+  whoIsThisFor              String?
+  postEventText             String?
+  feedback                  Json?
+  bookUrl                   String?
+  bookCtaText               String?   @default("Book now")
+  earlyBirdNote             String?
+}
+
+model Destination {
+  id                    String   @id @default(cuid())
+  name                  String
+  subtitle              String?
+  region                String?
+  status                String   @default("DRAFT")
+  unescoStatus          String?
+  heroImage             String?
+  heroImageAltText      String?
+  ctaText               String?
+  ctaUrl                String?
+  overviewContent       String?
+  whatYouWillUnderstand Json?
+  scholarName           String?
+  scholarCredentials    String?
+  scholarPortrait       String?
+  placesCovered         Json?
+  bestSeason            String?
+  nearestAirport        String?
+  recommendedDuration   String?
+  groupSize             String?
+  difficultyLevel       String?
+  seasonNotes           String?
+  mainFestival          String?
+  festivalMonth         String?
+  weatherOverview       String?
+  itineraries           Int      @default(0)
+  order                 Int      @default(0)
+  published             Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  itineraryData         Json?
+  /// Public code, e.g. HAM0001 (3 letters from the name + 4 digits). Itineraries under it use HAM00001…
+  code                  String?  @unique
+  heroLabel             String?
+  heroTitle             String?
+  /// where the "Experience" tab of this destination points (default /experience)
+  experienceUrl         String?
+  enquireLabel          String?
+  enquireTitle          String?
+  enquireText           String?
+  enquireCtaText        String?
+  enquireCtaUrl         String?
+}
+
+/* ---------- Homepage CMS (added for the new homepage) ---------- */
+
+model Intellect {
+  id          String   @id @default(cuid())
+  name        String?
+  designation String?
+  description String?
+  image       String?
+  ctaText     String?
+  ctaUrl      String?
+  status      String   @default("PUBLISHED")
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id            String   @id @default(cuid())
+  quote         String?
+  travellerName String?
+  role          String?
+  ctaText       String?
+  ctaUrl        String?
+  status        String   @default("PUBLISHED")
+  order         Int      @default(0)
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  ctaUrl    String?
+  status    String   @default("PUBLISHED")
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Key/value store for single assets & copy: "festivalImage", "ctaImage",
+/// "heroVideo", "tripsIntro", "eventsIntro"
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+/* ---------- About page CMS ---------- */
+
+/// "A New Paradigm of Living Wisdom" — the three manifesto cards. `image` is
+/// the photo revealed behind the card on hover.
+model AboutCard {
+  id        String   @id @default(cuid())
+  title     String?
+  body      String?
+  image     String?
+  status    String   @default("PUBLISHED")
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// "The Founders" cards on the About page (the Intellects grid reuses `Intellect`).
+model Founder {
+  id          String   @id @default(cuid())
+  name        String?
+  designation String?
+  description String?
+  image       String?
+  status      String   @default("PUBLISHED")
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+/// A scholar profile placed on one page (About / Experience). `intellectId` points at the
+/// profile in the Intellects library; every other column is an OPTIONAL override that only
+/// applies on that page — the library profile itself is never changed by editing a placement.
+model IntellectPlacement {
+  id          String   @id @default(cuid())
+  page        String
+  intellectId String?
+  name        String?
+  designation String?
+  description String?
+  image       String?
+  ctaText     String?
+  ctaUrl      String?
+  status      String   @default("PUBLISHED")
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+/// Experience page → "Two Lenses, One Place": one numbered site (sketch + two lenses + sketched figure).
+model ExperienceSite {
+  id          String   @id @default(cuid())
+  title       String?
+  lensALabel  String?  @default("Engineering")
+  lensAText   String?
+  lensBLabel  String?  @default("Cosmology")
+  lensBText   String?
+  image       String?
+  figure      String?  @default("boulders")
+  figureLeft  String?
+  figureTop   String?
+  ctaText     String?
+  ctaUrl      String?
+  status      String   @default("PUBLISHED")
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+/// Experience page → red "Fragments" carousel, one slide each.
+model ExperienceFragment {
+  id        String   @id @default(cuid())
+  text      String?
+  status    String   @default("PUBLISHED")
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Experience page → "Questions Hampi Still Asks".
+model ExperienceQuestion {
+  id        String   @id @default(cuid())
+  text      String?
+  status    String   @default("PUBLISHED")
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/* ---------- Destinations & itineraries (round 8) ---------- */
+
+/// One itinerary of a destination. `code` e.g. HAM00001 (destination prefix + 5 digits).
+/// `days` = [{ title, image, activities: [{ title, description, icons: [iconId] }] }]
+/// `stays` = [{ name, description, image }]
+/// `iconOverrides` = { [iconId]: { name?, url? } } — icon edits that apply to THIS itinerary only.
+model Itinerary {
+  id             String   @id @default(cuid())
+  code           String?  @unique
+  destinationId  String
+  label          String?  @default("Journey Path")
+  title          String?
+  durationLabel  String?
+  heroImage      String?
+  heroLabel      String?
+  heroTitle      String?
+  heroCtaText    String?  @default("Enquire about this journey")
+  heroCtaUrl     String?
+  staysTitle     String?  @default("Where you'll stay")
+  intellectsLabel String? @default("Intellects")
+  intellectsTitle String? @default("The Scholar Who Reads This Place")
+  intellectsIntro String?
+  enquireLabel   String?  @default("Enquire")
+  enquireTitle   String?  @default("Begin Your Maarga")
+  enquireText    String?
+  enquireCtaText String?  @default("Enquire about this journey")
+  enquireCtaUrl  String?
+  pdfUrl         String?
+  days           Json?
+  stays          Json?
+  iconOverrides  Json?
+  status         String   @default("DRAFT")
+  order          Int      @default(0)
+  published      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+/// Activity icons library (CMS → Icons). `url` is an SVG/PNG; drawn cream on a 24px red square.
+model ActivityIcon {
+  id        String   @id @default(cuid())
+  name      String?
+  url       String?
+  status    String   @default("PUBLISHED")
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Media library (CMS → Gallery). Every uploaded image/video lands here.
+/// `folder`: "general" | "destination:<id>" | "event:<id>" | any custom name.
+/// `inBank` = shown on the public /gallery (Gallery Bank); `inFolderGallery` = shown on the
+/// destination's / event's own gallery.
+model MediaAsset {
+  id              String   @id @default(cuid())
+  url             String
+  alt             String?
+  folder          String   @default("general")
+  kind            String   @default("image")
+  inBank          Boolean  @default(false)
+  inFolderGallery Boolean  @default(true)
+  status          String   @default("PUBLISHED")
+  order           Int      @default(0)
+  published       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+/// Events page → "How These Sessions Work" (01 / 02 / 03).
+model EventPrinciple {
+  id        String   @id @default(cuid())
+  title     String?
+  body      String?
+  status    String   @default("PUBLISHED")
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

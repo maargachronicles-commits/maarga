@@ -1,0 +1,21 @@
+.story3-sketch path {
+  fill: none !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.story3-sketch path[fill="#272727"] {
+  stroke: #272727;
+  stroke-width: 0.5;
+}
+
+.story3-sketch path[fill="#A62F20"] {
+  stroke: #A62F20;
+  stroke-width: 0.8;
+}
+
+
+/* Darker rendering for the homepage stack (see story1Sketch.css). */
+.story3-sketch g[opacity] { opacity: 0.55 !important; }
+.story3-sketch path[fill="#272727"] { stroke-width: 0.9; }
+.story3-sketch path[fill="#A62F20"] { stroke-width: 1.1; }

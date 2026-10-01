@@ -1,0 +1,26 @@
+{
+  "name": "maarga",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "client",
+    "admin",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix admin\" \"npm run dev --prefix server\"",
+    "client": "npm run dev --prefix client",
+    "admin": "npm run dev --prefix admin",
+    "server": "npm run dev --prefix server",
+    "build": "npm run build --prefix client && npm run build --prefix admin",
+    "install:all": "npm install --prefix client && npm install --prefix admin && npm install --prefix server"
+  },
+  "devDependencies": {
+    "@svgr/cli": "^8.1.0",
+    "@types/gsap": "^1.20.2",
+    "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0"
+  }
+}

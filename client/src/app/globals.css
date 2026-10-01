@@ -1,0 +1,291 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Maarga design tokens — taken from the Figma text styles / fills.
+   Fonts: Clash Grotesk (display, buttons) + Erode (body). Both free on
+   Fontshare; loaded in app/layout.tsx.
+------------------------------------------------------------------ */
+@theme {
+  --color-red: #a62f20;
+  --color-ink: #272727;
+  --color-cream: #fffdfa;
+  --color-line: #cfcfcf;
+
+  --font-clash: "Clash Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-erode: "Erode", Georgia, "Times New Roman", serif;
+}
+
+:root {
+  --nav-h: 104px;
+  color-scheme: light;
+}
+
+@layer base {
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-erode);
+  font-size: 16px;
+  line-height: 19.8px;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+img, video, svg { display: block; max-width: 100%; }
+
+::selection {
+  background: var(--color-red);
+  color: #fff;
+}
+}
+
+/* ---------- Type scale (exact Figma values) ---------- */
+.t-h1   { font-family: var(--font-clash); font-weight: 400; font-size: 40px; line-height: 49.2px; }
+@media (max-width: 767px) { .t-h1 { font-size: 30px; line-height: 37px; } .t-h2 { font-size: 24px; line-height: 30px; } }
+.t-h2   { font-family: var(--font-clash); font-weight: 400; font-size: 28px; line-height: 34.4px; }
+.t-h3   { font-family: var(--font-clash); font-weight: 400; font-size: 24px; line-height: 31.2px; }
+.t-h4   { font-family: var(--font-clash); font-weight: 400; font-size: 22px; line-height: 27.1px; }
+.t-btn  { font-family: var(--font-clash); font-weight: 400; font-size: 16px; line-height: 19.7px; }
+.t-body { font-family: var(--font-erode); font-weight: 400; font-size: 16px; line-height: 19.8px; }
+.t-body-lg { font-family: var(--font-erode); font-weight: 400; font-size: 16px; line-height: 25.6px; }
+.t-small{ font-family: var(--font-erode); font-weight: 400; font-size: 14px; line-height: 17.4px; }
+.t-foot-title { font-family: var(--font-erode); font-weight: 600; font-size: 28px; line-height: 34.7px; }
+.t-foot-link  { font-family: var(--font-erode); font-weight: 400; font-size: 24px; line-height: 29.8px; }
+
+/* ---------- Layout ---------- */
+.wrap {
+  width: 100%;
+  max-width: 1512px;
+  margin-inline: auto;
+}
+.container {
+  width: 100%;
+  max-width: 1272px;   /* 1512 − 2×120 */
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (min-width: 1320px) {
+  .container { padding-inline: 0; }
+}
+
+/* ---------- Buttons ---------- */
+.btn-red {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 44px; padding: 12px 36px;
+  background: var(--color-red); color: var(--color-cream);
+  font-family: var(--font-clash); font-size: 16px; line-height: 19.7px;
+  transition: background-color .3s ease;
+}
+.btn-red:hover { background: #8f2719; }
+.btn-cream {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 44px; padding: 12px 24px; width: 100%;
+  background: var(--color-cream); color: var(--color-red);
+  font-family: var(--font-clash); font-size: 16px; line-height: 19.7px;
+  transition: background-color .3s ease;
+}
+.btn-cream:hover { background: #fff; }
+/* Contact Us on a red header (About page): cream 149×44 button, red Clash label */
+.btn-cream-solid {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 44px; padding: 12px 36px;
+  background: var(--color-cream); color: var(--color-red);
+  font-family: var(--font-clash); font-size: 16px; line-height: 19.7px;
+  transition: background-color .3s ease;
+}
+.btn-cream-solid:hover { background: #fff; }
+
+/* Underlined arrow link (Figma "Frame 259": 1px bottom stroke, 4px gap) */
+.arrow-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--font-clash); font-size: 16px; line-height: 19.7px;
+  border-bottom: 1px solid currentColor; padding-bottom: 0;
+}
+.arrow-link svg { width: 14px; height: 14px; }
+
+/* Carousel arrows (33.6px, 0.8px red stroke, disabled = 20% opacity) */
+.car-btn {
+  width: 33.6px; height: 33.6px; display: grid; place-items: center;
+  border: 0.8px solid var(--color-red); color: var(--color-red);
+  transition: opacity .3s ease;
+}
+.car-btn:disabled { opacity: .2; cursor: default; }
+
+/* ---------- Scrollbar ----------
+   The native scrollbar (incl. its white track) is hidden so the page is
+   full-bleed; components/ui/ScrollIndicator draws just the position thumb. */
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+.scroll-indicator {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  width: 14px;               /* generous hit area, visual thumb is 4px */
+  height: 100vh;
+  height: 100dvh;
+  pointer-events: auto;
+  transition: opacity .3s ease;
+}
+.scroll-indicator__thumb {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  width: 4px;
+  border-radius: 999px;
+  background: rgba(39, 39, 39, 0.28);
+  cursor: grab;
+  touch-action: none;
+  will-change: transform;
+  transition: background-color .25s ease, width .2s ease, right .2s ease;
+}
+.scroll-indicator[data-moving="true"] .scroll-indicator__thumb { background: rgba(39, 39, 39, 0.55); }
+.scroll-indicator:hover .scroll-indicator__thumb,
+.scroll-indicator[data-dragging="true"] .scroll-indicator__thumb {
+  width: 6px; right: 3px; background: rgba(166, 47, 32, 0.85); cursor: grabbing;
+}
+@media (pointer: coarse) {
+  .scroll-indicator { width: 8px; }
+  .scroll-indicator__thumb { width: 3px; right: 2px; }
+}
+
+/* ---------- Sketch stack (mobile reflow) ----------
+   Desktop positions come from the PDF (inline % values). Below 900px the copy
+   sits at the top and the drawing is centred underneath it. */
+@media (max-width: 899px) {
+  .sketch-copy {
+    left: 24px !important;
+    right: 24px !important;
+    top: 12% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+  .sketch-copy .sketch-copy__row { width: 100% !important; }
+  .sketch-art {
+    left: 2% !important;
+    top: auto !important;
+    bottom: 12% !important;
+    width: 96% !important;
+  }
+}
+@media (max-width: 899px) and (min-aspect-ratio: 1/1) {
+  .sketch-art { bottom: 6% !important; left: 12% !important; width: 76% !important; }
+}
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-only { animation: none !important; transition: none !important; }
+}
+
+/* Heritage strip scrolls sideways on small screens — no visible scrollbar */
+.heritage-strip { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.heritage-strip::-webkit-scrollbar { display: none; }
+
+/* ---------- Sketch progress (1 ── 2 ── 3 above "What is Maarga") ----------
+   Node = 24px circle. Done = solid red / cream digit. Active = red ring that
+   fills clockwise with the drawing progress. Upcoming = faint ring, ink digit.
+   Segments between nodes turn red once the layer before them is finished. */
+.sk-progress { display: flex; align-items: center; height: 24px; }
+.sk-node {
+  position: relative; width: 24px; height: 24px; border-radius: 50%; flex: none;
+  display: grid; place-items: center;
+  font-family: var(--font-erode); font-size: 12px; line-height: 1; color: var(--color-ink);
+  background: transparent; cursor: pointer; transition: color .3s ease, background-color .3s ease;
+}
+.sk-node svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.sk-node svg circle { fill: none; stroke-width: 1.6; }
+.sk-node .sk-track { stroke: rgba(39, 39, 39, 0.22); }
+.sk-node .sk-fill  { stroke: var(--color-red); stroke-linecap: round; stroke-dasharray: 69.1 69.1; stroke-dashoffset: 69.1; transition: none; }
+.sk-node[data-state="done"]   { background: var(--color-red); color: var(--color-cream); }
+.sk-node[data-state="done"] .sk-fill  { stroke-dashoffset: 0; }
+.sk-node[data-state="done"] .sk-track { stroke: var(--color-red); }
+.sk-node[data-state="active"] { color: var(--color-red); }
+.sk-node[data-state="active"] .sk-track { stroke: rgba(166, 47, 32, 0.28); }
+.sk-node[data-state="upcoming"] { color: rgba(39, 39, 39, 0.55); }
+.sk-node[data-state="upcoming"] .sk-fill { opacity: 0; }
+.sk-node:hover { color: var(--color-red); }
+.sk-node[data-state="done"]:hover { color: var(--color-cream); }
+.sk-node span { position: relative; }
+.sk-seg { position: relative; width: 48px; height: 1px; flex: none; background: rgba(39, 39, 39, 0.22); overflow: hidden; }
+.sk-seg::after {
+  content: ""; position: absolute; inset: 0; background: var(--color-red);
+  transform: scaleX(var(--sk-fill, 0)); transform-origin: left center;
+}
+.sk-seg[data-done="true"] { --sk-fill: 1; }
+@media (max-width: 767px) { .sk-seg { width: 32px; } }
+
+/* ---------- About page ---------- */
+/* Hero copy: Clash 28/34.4 cream with the designed underlined phrases */
+.about-hero-copy p { font-family: var(--font-clash); font-weight: 400; font-size: 28px; line-height: 34.4px; }
+.about-hero-copy u { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+@media (max-width: 767px) { .about-hero-copy p { font-size: 22px; line-height: 27.5px; } }
+
+/* Manifesto cards: adjacent 1px rules (no doubled borders), photo hidden until hover / tap */
+.manifesto-grid > li + li { margin-left: -1px; }
+@media (max-width: 767px) { .manifesto-grid > li + li { margin-left: 0; margin-top: -1px; } }
+.mf-card { cursor: pointer; }
+/* Instant swap (client's reference video): the photo appears and the text turns cream in the SAME frame — no fade. */
+.mf-card__photo { visibility: hidden; }
+.mf-card h3 { color: var(--color-red); }
+.mf-card p { color: var(--color-ink); }
+@media (hover: hover) and (pointer: fine) {
+  .mf-card:hover .mf-card__photo { visibility: visible; }
+  .mf-card:hover h3, .mf-card:hover p { color: var(--color-cream); }
+}
+.mf-card.is-active .mf-card__photo { visibility: visible; }
+.mf-card.is-active h3, .mf-card.is-active p { color: var(--color-cream); }
+
+/* "Not Archival. Alive." composition — 1558px at 1512 (bleeds 23px each side); wider on phones */
+.about-gallery { width: 103.04%; max-width: none; flex: none; }
+@media (max-width: 767px) { .about-gallery { width: 200%; } }
+
+/* ---- Experience page ---- */
+/* "Hampi, Karnataka" — Erode 74.6/92.5 (Figma Frame 378) */
+.place-title { font-family: var(--font-erode); font-weight: 400; font-size: 74.6px; line-height: 92.5px; }
+@media (max-width: 1023px) { .place-title { font-size: 52px; line-height: 62px; } }
+@media (max-width: 767px) { .place-title { font-size: 38px; line-height: 46px; } }
+/* site titles — Clash 48/59 */
+.t-site { font-family: var(--font-clash); font-weight: 400; font-size: 48px; line-height: 59px; }
+@media (max-width: 1023px) { .t-site { font-size: 36px; line-height: 44px; } }
+@media (max-width: 767px) { .t-site { font-size: 30px; line-height: 37px; } }
+/* sketched figure inside a sketch: clickable, gentle lift on hover */
+.exp-figure { transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+.exp-figure:hover { transform: translateY(-3px); }
+
+/* ---------- Round 8: itinerary activity icons + print ---------- */
+/* any uploaded icon (SVG/PNG, whatever colour) renders cream on the 24px red square */
+.act-icon { filter: brightness(0) invert(1); }
+@media print {
+  header, nav, footer, #contact-cta, .print\:hidden { display: none !important; }
+  #itinerary { padding-top: 0 !important; }
+}

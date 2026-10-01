@@ -1,0 +1,23 @@
+.story2-sketch path {
+  fill: none !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Human figures */
+
+.story2-sketch path[fill="#A62F20"] {
+  stroke: #A62F20;
+  stroke-width: 0.8;
+}
+
+/* Temple */
+
+.story2-sketch path[fill="#272727"] {
+  stroke: #272727;
+  stroke-width: 0.5;
+}
+/* Darker rendering for the homepage stack (see story1Sketch.css). */
+.story2-sketch g[opacity] { opacity: 0.55 !important; }
+.story2-sketch path[fill="#272727"] { stroke-width: 0.9; }
+.story2-sketch path[fill="#A62F20"] { stroke-width: 1.1; }

@@ -1,0 +1,116 @@
+{
+  "journeys": [
+    {
+      "id": "JRN-1787740647683-1xqi6d",
+      "title": "Hampi",
+      "startDate": "2026-08-26",
+      "endDate": "2026-08-31",
+      "duration": "6 Days / 5 Nights",
+      "coverImage": "",
+      "standardPrice": 50000,
+      "earlyBirdEnabled": true,
+      "earlyBirdPrice": 40000,
+      "earlyBirdDeadline": "2026-08-28",
+      "groupSizeLimit": 100,
+      "currentRegistrations": 0,
+      "status": "PUBLISHED",
+      "showOnWebsite": true,
+      "createdAt": "2026-08-26T10:37:27.683Z",
+      "updatedAt": "2026-08-31T03:45:28.963Z"
+    },
+    {
+      "id": "JRN-1788149314053-kariyx",
+      "title": "Bangalore",
+      "startDate": "2026-09-03",
+      "endDate": "2026-09-30",
+      "duration": "28 Days / 27 Nights",
+      "coverImage": "",
+      "standardPrice": 50000,
+      "earlyBirdEnabled": true,
+      "earlyBirdPrice": 40000,
+      "earlyBirdDeadline": "2026-09-05",
+      "groupSizeLimit": 101,
+      "currentRegistrations": 0,
+      "status": "PUBLISHED",
+      "showOnWebsite": true,
+      "createdAt": "2026-08-31T04:08:34.053Z",
+      "updatedAt": "2026-08-31T04:08:34.053Z"
+    }
+  ],
+  "destinations": [
+    {
+      "id": "DST-1787832102881-68di4h",
+      "name": "Hampi",
+      "region": "Karnataka",
+      "country": "India",
+      "description": "Full trip",
+      "coverImage": "",
+      "showOnWebsite": true,
+      "createdAt": "2026-08-27T12:01:42.881Z",
+      "updatedAt": "2026-08-31T03:42:48.396Z"
+    },
+    {
+      "id": "DST-1788149388708-u5kstv",
+      "name": "Bangalore",
+      "region": "Karnataka",
+      "country": "India",
+      "description": "Lib, Park, Etc",
+      "coverImage": "https://res.cloudinary.com/iwdsrxyx/image/upload/v1788149939/maarga/gallery/file_tdk7yo.png",
+      "showOnWebsite": true,
+      "createdAt": "2026-08-31T04:09:48.708Z",
+      "updatedAt": "2026-08-31T04:19:01.916Z"
+    }
+  ],
+  "destinationContents": [
+    {
+      "id": "ITN-1787832112025-9zdpya",
+      "destinationId": "DST-1787832102881-68di4h",
+      "journeyId": "JRN-1787740647683-1xqi6d",
+      "days": [
+        {
+          "id": "DAY-1787832474047-qn6afk",
+          "dayNumber": 1,
+          "title": "Day 1",
+          "coverImage": "",
+          "stops": [
+            {
+              "id": "STP-1787832477843-inidbk",
+              "type": "Temple / Monument",
+              "title": "New Stop",
+              "description": "",
+              "order": 0
+            }
+          ]
+        }
+      ],
+      "accommodations": [],
+      "createdAt": "2026-08-27T12:01:52.025Z",
+      "updatedAt": "2026-08-27T12:08:11.892Z"
+    },
+    {
+      "id": "ITN-1788149392983-gfskuw",
+      "destinationId": "DST-1788149388708-u5kstv",
+      "journeyId": "JRN-1788149314053-kariyx",
+      "days": [
+        {
+          "id": "DAY-1788149396079-j7o176",
+          "dayNumber": 1,
+          "title": "Day 1",
+          "coverImage": "",
+          "stops": [
+            {
+              "id": "STP-1788149398083-q8i7x4",
+              "type": "Transfer",
+              "title": "New Stop",
+              "description": "1",
+              "order": 0
+            }
+          ]
+        }
+      ],
+      "accommodations": [],
+      "createdAt": "2026-08-31T04:09:52.983Z",
+      "updatedAt": "2026-08-31T04:10:06.419Z"
+    }
+  ]
+}
