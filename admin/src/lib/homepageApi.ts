@@ -2,7 +2,28 @@
  * Client for /api/homepage-admin (server/src/routes/homepageAdmin.ts).
  * Every homepage collection shares the same verbs, so the editor is generic.
  */
-export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000").replace(/\/$/, "");
+/**
+ * Where the Express API lives.
+ *  1. NEXT_PUBLIC_API_URL if set.
+ *  2. In the browser on a real domain (e.g. Vercel): the same site, since /api/* is routed to the server.
+ *  3. On the server during a Vercel deployment: this deployment's own public URL.
+ *  4. Otherwise local development: http://localhost:5000.
+ */
+function resolveApiUrl(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== "undefined") {
+    const local = /^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)$/.test(window.location.hostname);
+    if (!local) return window.location.origin;
+  }
+  const host =
+    process.env.VERCEL_ENV === "production"
+      ? process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL
+      : process.env.VERCEL_URL;
+  if (host) return `https://${host}`;
+  return "http://localhost:5000";
+}
+
+export const API_URL = resolveApiUrl().replace(/\/$/, "");
 
 export type CollectionName =
   | "intellects"
