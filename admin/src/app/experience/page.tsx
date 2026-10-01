@@ -26,7 +26,7 @@ export default function ExperienceEditorPage() {
       intro={
         <>
           Everything below is shown exactly as it appears on the Experience page. Click text or images to change them, then <b>Save as draft</b> or <b>Publish</b>.
-          Scholars are picked from the <a href="/intellects" style={{ color: "#a62f20" }}>Intellects</a> library and can be adjusted for this page only.
+          Scholars are picked from the <a href="/admin/intellects" style={{ color: "#a62f20" }}>Intellects</a> library and can be adjusted for this page only.
         </>
       }
     />

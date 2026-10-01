@@ -297,7 +297,7 @@ const ACTIVITY_ICONS_KEY =
    ============================================================ */
 
 const PUBLIC_CMS_SYNC_URL =
-  "/api/public/homepage";
+  "/admin/api/public/homepage";
 
 let publicCmsSyncTimer:
   ReturnType<typeof setTimeout> | null =

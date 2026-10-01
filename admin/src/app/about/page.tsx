@@ -27,7 +27,7 @@ export default function AboutEditorPage() {
       intro={
         <>
           Everything below is shown exactly as it appears on the About page. Click text or images to change them, then <b>Save as draft</b> or <b>Publish</b>.
-          Scholar profiles themselves live in the <a href="/intellects" style={{ color: "#a62f20" }}>Intellects</a> library; here you choose which ones appear and can adjust them for this page only.
+          Scholar profiles themselves live in the <a href="/admin/intellects" style={{ color: "#a62f20" }}>Intellects</a> library; here you choose which ones appear and can adjust them for this page only.
         </>
       }
     />

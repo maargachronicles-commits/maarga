@@ -20,8 +20,8 @@ export default function IntellectsLibraryPage() {
       tabs={TABS}
       intro={
         <>
-          The library of scholar profiles. Each profile can be placed on the <a href="/about#intellects" style={{ color: "#a62f20" }}>About page</a> and the{" "}
-          <a href="/experience#intellects" style={{ color: "#a62f20" }}>Experience page</a> from a dropdown; edits made there stay on that page — the profile here is the
+          The library of scholar profiles. Each profile can be placed on the <a href="/admin/about#intellects" style={{ color: "#a62f20" }}>About page</a> and the{" "}
+          <a href="/admin/experience#intellects" style={{ color: "#a62f20" }}>Experience page</a> from a dropdown; edits made there stay on that page — the profile here is the
           default everywhere else.
         </>
       }
