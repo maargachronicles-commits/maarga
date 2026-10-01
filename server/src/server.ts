@@ -51,16 +51,23 @@ app.get("/api/health", async (_req, res) => {
 
 const PORT = Number(process.env.PORT) || 5000;
 
-/* Resolve the data backend once at boot so the console shows which one is in use. */
-getDb()
-  .then((db) => {
-    app.listen(PORT, () => {
-      console.log(`Maarga API running on http://localhost:${PORT}`);
-      console.log(`  data:    ${db.detail}`);
-      console.log(`  uploads: ${storageMode === "cloudinary" ? "Cloudinary" : `local (${UPLOAD_DIR}, served at /uploads)`}`);
+/*
+ * On Vercel the platform runs the app for us, so we only export it.
+ * Locally (npm run dev) we start a normal server and log which data store is in use.
+ */
+if (!process.env.VERCEL) {
+  getDb()
+    .then((db) => {
+      app.listen(PORT, () => {
+        console.log(`Maarga API running on http://localhost:${PORT}`);
+        console.log(`  data:    ${db.detail}`);
+        console.log(`  uploads: ${storageMode === "cloudinary" ? "Cloudinary" : `local (${UPLOAD_DIR}, served at /uploads)`}`);
+      });
+    })
+    .catch((e) => {
+      console.error("[maarga] Could not initialise the data store:", e);
+      process.exit(1);
     });
-  })
-  .catch((e) => {
-    console.error("[maarga] Could not initialise the data store:", e);
-    process.exit(1);
-  });
+}
+
+export default app;
