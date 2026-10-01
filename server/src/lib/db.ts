@@ -2,6 +2,7 @@ import path from "node:path";
 import { FileStore, MODELS, type Delegate, type ModelName } from "./fileStore";
 import { seedAbout, seedExperience, seedHomepage } from "./seedData";
 import { seedSite } from "./seedSite";
+import type * as PrismaModule from "./prisma";
 
 /**
  * Single data-access entry point for the homepage CMS routes.
@@ -25,7 +26,8 @@ let backendPromise: Promise<Db> | null = null;
 export const DATA_FILE = path.resolve(__dirname, "../../data/homepage-cms.json");
 
 async function connectPrisma(): Promise<Db> {
-  const mod = await import("./prisma");
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const mod = require("./prisma") as typeof PrismaModule;
   if (!mod.prismaAvailable) throw mod.prismaLoadError ?? new Error("Prisma client unavailable");
   const prisma = mod.default as any;
   await Promise.race([
