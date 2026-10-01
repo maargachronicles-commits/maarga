@@ -10,9 +10,11 @@ type Db = Record<ModelName, Delegate>;
 
 /* Placeholder photos are served by the API itself (server/public/images → /static/images)
    so they work for the site AND the admin preview no matter which ports they run on. */
-const BASE = (process.env.CLIENT_PUBLIC_URL || process.env.PUBLIC_URL || `http://localhost:${process.env.PORT || 5000}`).replace(/\/$/, "");
+/* On Vercel everything shares one domain, so use relative paths served by the client (client/public/images). */
+const ON_VERCEL = !!process.env.VERCEL && !process.env.CLIENT_PUBLIC_URL && !process.env.PUBLIC_URL;
+const BASE = ON_VERCEL ? "" : (process.env.CLIENT_PUBLIC_URL || process.env.PUBLIC_URL || `http://localhost:${process.env.PORT || 5000}`).replace(/\/$/, "");
 export const img = (name: string) =>
-  process.env.CLIENT_PUBLIC_URL ? `${BASE}/images/${name}.jpg` : `${BASE}/static/images/${name}.jpg`;
+  ON_VERCEL || process.env.CLIENT_PUBLIC_URL ? `${BASE}/images/${name}.jpg` : `${BASE}/static/images/${name}.jpg`;
 
 export const LEAD =
   "Led by a historian who has spent over two decades excavating and publishing on Vijayanagara's water systems. You will not just see the Virupaksha Temple — you will understand the hydraulic engineering that let a desert capital sustain half a million people.";

@@ -14,8 +14,10 @@ import { img } from "./seedData";
  */
 type Db = Record<ModelName, Delegate>;
 
+const ON_VERCEL = !!process.env.VERCEL && !process.env.PUBLIC_URL;
 const BASE = (process.env.PUBLIC_URL || `http://localhost:${process.env.PORT || 5000}`).replace(/\/$/, "");
-export const iconUrl = (name: string) => `${BASE}/static/icons/${name}.svg`;
+/* On Vercel the icons are served by the client from client/public/icons. */
+export const iconUrl = (name: string) => (ON_VERCEL ? `/icons/${name}.svg` : `${BASE}/static/icons/${name}.svg`);
 
 export const SITE_TEXT_DEFAULTS: Record<string, string> = {
   // Events page

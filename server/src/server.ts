@@ -22,6 +22,27 @@ const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
+/*
+ * On Vercel, rewrite any localhost image/icon URLs saved earlier (e.g. a database
+ * seeded on your own computer) into relative paths served by the client.
+ */
+if (process.env.VERCEL) {
+  const LOCAL_ASSET = /https?:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?\/(?:static\/)?(images|icons)\//g;
+  const fix = (v: unknown): unknown => {
+    if (typeof v === "string") return v.replace(LOCAL_ASSET, "/$1/");
+    if (Array.isArray(v)) return v.map(fix);
+    if (v && typeof v === "object" && !(v instanceof Date)) {
+      return Object.fromEntries(Object.entries(v as Record<string, unknown>).map(([k, x]) => [k, fix(x)]));
+    }
+    return v;
+  };
+  app.use((_req, res, next) => {
+    const json = res.json.bind(res);
+    res.json = (body: unknown) => json(fix(body));
+    next();
+  });
+}
+
 /* Uploaded files when Cloudinary is not configured (server/uploads) */
 app.use("/uploads", express.static(UPLOAD_DIR, { maxAge: "7d", fallthrough: true }));
 /* Placeholder photos used by the seed content */
