@@ -11,7 +11,8 @@
     "unrs-resolver": true,
     "@prisma/engines": true,
     "prisma": true,
-    "esbuild": true
+    "esbuild": true,
+    "bcrypt": true
   },
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix admin\" \"npm run dev --prefix server\"",
