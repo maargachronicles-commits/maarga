@@ -12,6 +12,9 @@ const isLocalApi = /^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)$/.test(apiHost)
 
 const nextConfig: NextConfig = {
   images: {
+    // Serve images straight from /public instead of through /_next/image.
+    // On the Vercel Services deployment the optimizer URLs came back broken.
+    unoptimized: true,
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },
       // placeholder content + local uploads served by the API / this app during development
